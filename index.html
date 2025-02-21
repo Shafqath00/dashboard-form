@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="form-main">
+        <div class="form-body">
+            <form onsubmit="Sub(event)" id="form">
+                <div class="in">
+                    <p>Name:</p>
+                    <input type="text" name="name" id="name" required placeholder="Enter you name...">
+                </div>
+                <div class="in">
+                    <p>Email:</p>
+                    <input type="email" name="mail" id="mail" required placeholder="Enter you email...">
+                </div>
+                <div class="in">
+                    <p>Number:</p>
+                    <input type="text" name="number" id="number" maxlength="10" pattern="\d{10}"
+                        title="Please enter exactly 10 digits" required placeholder="Enter you number..." />
+                </div>
+                <div class="in">
+                    <p>City:</p>
+                    <input type="text" name="city" id="place" required placeholder="Enter you city...">
+                </div>
+                <div class="txt">
+                    <p>Text:</p>
+                    <textarea name="texts" id="message" required></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="submit" id="submit">
+                </div>
+            </form>
+        </div>
+        <div class="sub-after" id="btn-sub">
+            <div>
+                <h1>Thanks for submit</h1>
+                <button type="submit" id="ok-btn">ok</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sub = document.getElementById("submit");
+        const btn = document.getElementById("ok-btn");
+        const btn_sub = document.getElementById("btn-sub");
+        btn.addEventListener('click', () => {
+            btn_sub.classList.remove("sub-active");
+            document.getElementById("form").reset();
+        })
+        async function Sub(e) {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const mail = document.getElementById("mail").value;
+            const place = document.getElementById("place").value;
+            const number = document.getElementById("number").value;
+            const message = document.getElementById("message").value;
+            const today = new Date();
+            const date = today.toISOString().split('T')[0];
+            console.log(name, mail, place, number, message, date);
+            try {
+                const response = await axios.post('https://api-wk5glfdx6q-uc.a.run.app/users/add', { name, mail, place, number, message, date });
+                console.log(response.data); // Debug response
+                btn_sub.classList.add("sub-active");
+
+            } catch (error) {
+                console.error("Error submitting form:", error.response?.data || error.message);
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
