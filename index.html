@@ -1,81 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>form</title>
+    <title>Multi-Form Selection</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .form-body { display: none; }
+        .form-body.active { display: block; }
+        .sub-after { display: none; }
+        .sub-after.sub-active { display: block; }
+    </style>
 </head>
-
 <body>
     <div class="form-main">
-        <div class="form-body">
-            <form onsubmit="Sub(event)" id="form">
+        <div class="form-selector">
+            <label for="form-select">Select Form:</label>
+            <select id="form-select" onchange="showForm()">
+                <option value="form1">Form 1 - jj</option>
+                <option value="form2">Form 2 - facebook</option>
+                <option value="form3">Form 3 - tea</option>
+            </select>
+        </div>
+
+        <!-- Form 1: Contact -->
+        <div class="form-body" id="form1">
+            <form onsubmit="Sub(event, 'form1')" id="form-1">
                 <div class="in">
                     <p>Name:</p>
-                    <input type="text" name="name" id="name" required placeholder="Enter you name...">
+                    <input type="text" name="name" id="name1" required placeholder="Enter your name...">
                 </div>
                 <div class="in">
                     <p>Email:</p>
-                    <input type="email" name="mail" id="mail" required placeholder="Enter you email...">
+                    <input type="email" name="mail" id="mail1" required placeholder="Enter your email...">
                 </div>
                 <div class="in">
                     <p>Number:</p>
-                    <input type="text" name="number" id="number" maxlength="10" pattern="\d{10}"
-                        title="Please enter exactly 10 digits" required placeholder="Enter you number..." />
+                    <input type="text" name="number" id="number1" maxlength="10" pattern="\d{10}" 
+                        title="Please enter exactly 10 digits" required placeholder="Enter your number...">
                 </div>
                 <div class="in">
                     <p>City:</p>
-                    <input type="text" name="city" id="place" required placeholder="Enter you city...">
+                    <input type="text" name="city" id="place1" required placeholder="Enter your city...">
                 </div>
                 <div class="txt">
-                    <p>Text:</p>
-                    <textarea name="texts" id="message" required></textarea>
+                    <p>Message:</p>
+                    <textarea name="texts" id="message1" required placeholder="Enter your message..."></textarea>
                 </div>
                 <div>
-                    <input type="submit" value="submit" id="submit">
+                    <input type="submit" value="Submit" id="submit1">
                 </div>
             </form>
         </div>
+
+        <!-- Form 2: Feedback -->
+        <div class="form-body" id="form2">
+            <form onsubmit="Sub(event, 'form2')" id="form-2">
+                <div class="in">
+                    <p>Name:</p>
+                    <input type="text" name="name" id="name2" required placeholder="Enter your name...">
+                </div>
+                <div class="in">
+                    <p>Email:</p>
+                    <input type="email" name="mail" id="mail2" required placeholder="Enter your email...">
+                </div>
+                <div class="in">
+                    <p>Number:</p>
+                    <input type="text" name="number" id="number2" maxlength="10" pattern="\d{10}" 
+                        title="Please enter exactly 10 digits" required placeholder="Enter your number...">
+                </div>
+                <div class="in">
+                    <p>City:</p>
+                    <input type="text" name="city" id="place2" required placeholder="Enter your city...">
+                </div>
+                <div class="txt">
+                    <p>Message:</p>
+                    <textarea name="texts" id="message2" required placeholder="Enter your message..."></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" id="submit2">
+                </div>
+            </form>
+        </div>
+
+        <!-- Form 3: Registration -->
+        <div class="form-body" id="form3">
+            <form onsubmit="Sub(event, 'form3')" id="form-3">
+                <div class="in">
+                    <p>Name:</p>
+                    <input type="text" name="name" id="name3" required placeholder="Enter your name...">
+                </div>
+                <div class="in">
+                    <p>Email:</p>
+                    <input type="email" name="mail" id="mail3" required placeholder="Enter your email...">
+                </div>
+                <div class="in">
+                    <p>Number:</p>
+                    <input type="text" name="number" id="number3" maxlength="10" pattern="\d{10}" 
+                        title="Please enter exactly 10 digits" required placeholder="Enter your number...">
+                </div>
+                <div class="in">
+                    <p>City:</p>
+                    <input type="text" name="city" id="place3" required placeholder="Enter your city...">
+                </div>
+                <div class="txt">
+                    <p>Message:</p>
+                    <textarea name="texts" id="message3" required placeholder="Enter your message..."></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" id="submit3">
+                </div>
+            </form>
+        </div>
+
         <div class="sub-after" id="btn-sub">
             <div>
-                <h1>Thanks for submit</h1>
-                <button type="submit" id="ok-btn">ok</button>
+                <h1>Thanks for submitting!</h1>
+                <button type="button" id="ok-btn">OK</button>
             </div>
         </div>
     </div>
+
     <script>
-        const sub = document.getElementById("submit");
+        function showForm() {
+            const select = document.getElementById("form-select").value;
+            const forms = ["form1", "form2", "form3"];
+            forms.forEach(formId => {
+                const formElement = document.getElementById(formId);
+                formElement.classList.toggle("active", formId === select);
+            });
+        }
+
+        showForm();
+
         const btn = document.getElementById("ok-btn");
         const btn_sub = document.getElementById("btn-sub");
         btn.addEventListener('click', () => {
             btn_sub.classList.remove("sub-active");
-            document.getElementById("form").reset();
-        })
-        async function Sub(e) {
-            e.preventDefault();
-            const name = document.getElementById("name").value;
-            const mail = document.getElementById("mail").value;
-            const place = document.getElementById("place").value;
-            const number = document.getElementById("number").value;
-            const message = document.getElementById("message").value;
-            const today = new Date();
-            const date = today.toISOString().split('T')[0];
-            console.log(name, mail, place, number, message, date);
-            try {
-                const response = await axios.post('https://api-wk5glfdx6q-uc.a.run.app/users/add', { name, mail, place, number, message, date });
-                console.log(response.data); // Debug response
-                btn_sub.classList.add("sub-active");
+            const activeForm = document.querySelector(".form-body.active form");
+            if (activeForm) activeForm.reset();
+        });
 
+        async function Sub(e, formId) {
+            e.preventDefault();
+            let data = {};
+            let config = {};
+
+            // Define API endpoints and their corresponding API keys
+            const apiConfig = {
+                'form1': {
+                    url: 'https://api-wk5glfdx6q-uc.a.run.app/',
+                    apiKey: 'd6f7d51dd1754cc9d45e4789d4ed535f'
+                },
+                'form2': {
+                    url: 'https://api-wk5glfdx6q-uc.a.run.app/',
+                    apiKey: '90e5c59904486d9c3ec35bfa1769bdc4'
+                },
+                'form3': {
+                    url: 'https://api-wk5glfdx6q-uc.a.run.app/',
+                    apiKey: '2906dd122a92cb000b6a9ab2cf93d7a0'
+                }
+            };
+
+            // Collect data with correct IDs for each form
+            if (formId === "form1") {
+                data = {
+                    name: document.getElementById("name1").value,
+                    email: document.getElementById("mail1").value,
+                    number: document.getElementById("number1").value,
+                    place: document.getElementById("place1").value,
+                    message: document.getElementById("message1").value,
+                };
+                config = {
+                    headers: {
+                        'x-api-key': apiConfig.form1.apiKey
+                    }
+                };
+            } else if (formId === "form2") {
+                data = {
+                    name: document.getElementById("name2").value,
+                    email: document.getElementById("mail2").value,
+                    number: document.getElementById("number2").value,
+                    place: document.getElementById("place2").value,
+                    message: document.getElementById("message2").value,
+                };
+                config = {
+                    headers: {
+                        'x-api-key': apiConfig.form2.apiKey
+                    }
+                };
+            } else if (formId === "form3") {
+                data = {
+                    name: document.getElementById("name3").value,
+                    email: document.getElementById("mail3").value,
+                    number: document.getElementById("number3").value,
+                    place: document.getElementById("place3").value,
+                    message: document.getElementById("message3").value,
+                };
+                config = {
+                    headers: {
+                        'x-api-key': apiConfig.form3.apiKey
+                    }
+                };
+            }
+
+            const apiUrl = apiConfig[formId].url;
+            console.log(`Submitting ${formId} data to ${apiUrl} with API key: ${config.headers['x-api-key']}`, data);
+
+            try {
+                const response = await axios.post(apiUrl, data, config);
+                console.log("Response:", response.data);
+                btn_sub.classList.add("sub-active");
             } catch (error) {
-                console.error("Error submitting form:", error.response?.data || error.message);
+                console.error(`Error submitting ${formId}:`, error.response?.data || error.message);
             }
         }
-
-
     </script>
 </body>
-
 </html>
