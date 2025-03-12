@@ -6,8 +6,8 @@
 }
 .form-main{
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
 }
